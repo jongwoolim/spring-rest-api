@@ -4,6 +4,7 @@ import me.whiteship.demorestapi.accounts.Account;
 import me.whiteship.demorestapi.accounts.AccountRepository;
 import me.whiteship.demorestapi.accounts.AccountRole;
 import me.whiteship.demorestapi.accounts.AccountService;
+import me.whiteship.demorestapi.common.AppProperties;
 import me.whiteship.demorestapi.common.BaseControllerTest;
 import me.whiteship.demorestapi.common.TestDescription;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,6 +43,9 @@ public class EventControllerTest extends BaseControllerTest {
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    AppProperties appProperties;
 
     @BeforeEach
     public  void setUp(){
@@ -234,12 +238,12 @@ public class EventControllerTest extends BaseControllerTest {
     private String getAccessToken() throws Exception {
 
             //Given
-            final String username = "whddn528@email.com";
-            final String password = "jongwoo";
+//            final String username = "whddn528@email.com";
+//            final String password = "jongwoo";
 
             final Account jongwoo = Account.builder()
-                    .email(username)
-                    .password(password)
+                    .email(appProperties.getUserUsername())
+                    .password(appProperties.getUserPassword())
                     .roles(Set.of(AccountRole.ADMIN, AccountRole.USER))
                     .build();
 
@@ -248,9 +252,9 @@ public class EventControllerTest extends BaseControllerTest {
             String clientId = "myApp";
             String clientSecret = "pass";
         final ResultActions perform = this.mockMvc.perform(post("/oauth/token")
-                .with(httpBasic(clientId, clientSecret))
-                .param("username", username)
-                .param("password", password)
+                .with(httpBasic(appProperties.getClientId(), appProperties.getClientSecret()))
+                .param("username", appProperties.getUserUsername())
+                .param("password", appProperties.getUserPassword())
                 .param("grant_type", "password"));
 
         var responseBody = perform.andReturn().getResponse().getContentAsString();
