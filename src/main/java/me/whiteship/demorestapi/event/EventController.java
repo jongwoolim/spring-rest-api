@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
@@ -33,6 +34,7 @@ public class EventController {
     private final EventRepository eventRepository;
     private final ModelMapper modelMapper;
     private final EventValidator eventValidator;
+
 
     public EventController(EventRepository eventRepository, ModelMapper modelMapper, EventValidator eventValidator) {
         this.eventRepository = eventRepository;
@@ -83,7 +85,7 @@ public class EventController {
 //        final User principal = (User) authentication.getPrincipal();
 
         final Page<Event> page = this.eventRepository.findAll(pageable);
-        var pageResources = assembler.toModel(page, e -> new EventResource(e));
+        var pageResources = assembler.toModel(page, EventResource::new);
         pageResources.add(new Link("/docs/index.html#resources-events-list").withRel("profile"));
 
         if(account != null){

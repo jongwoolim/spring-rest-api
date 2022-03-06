@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().mvcMatchers("/docs/index.html");
-        //정적 리소스들에 대한 기본 위치 적용 x
+        //정적 리소스들에 대한 기본 위치 적용 xc
         web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
 
     }

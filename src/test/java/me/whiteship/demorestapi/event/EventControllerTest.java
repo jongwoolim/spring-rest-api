@@ -179,7 +179,7 @@ public class EventControllerTest extends BaseControllerTest {
                                     linkWithRel("self").description("link to self"),
                                     linkWithRel("query-events").description("link to query events"),
                                     linkWithRel("update-event").description("link to update an existing event"),
-                                    linkWithRel("profile").description("link to update an existing event")
+                                    linkWithRel("profile").description("link to profile an existing event")
                             ),
                             requestHeaders(
                                     headerWithName(HttpHeaders.ACCEPT).description("accept header"),
